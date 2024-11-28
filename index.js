@@ -3,10 +3,17 @@ const mongoose = require("mongoose");
 const route = require("./router/index");
 const Led = require("./models/led.model");
 const methodOverride = require("method-override");
+const mqtt = require("mqtt");
+
 const app = express();
 const port = 3000;
 app.set("view engine", "pug");
 
+//KET NOI MQTT
+const client = mqtt.connect(
+  "04f4aeeea4d84429864135c7870eb612.s1.eu.hivemq.cloud"
+);
+//END KET NOI MQTT
 //Ket noi mongoose
 
 mongoose.connect("mongodb://127.0.0.1:27017/smartLed");
