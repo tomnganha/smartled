@@ -1,3 +1,4 @@
+//change status
 console.log("hello");
 const buttonChangeStatus = document.querySelectorAll("[button-change-status]");
 if (buttonChangeStatus.length > 0) {
@@ -18,3 +19,13 @@ if (buttonChangeStatus.length > 0) {
     });
   });
 }
+//setTime
+// const btnSchedule = document.querySelector("#btn-schedule");
+// btnSchedule.addEventListener("click");
+// const onTimeEle = document.querySelector("#onTime");
+// const offTimeEle = document.querySelector("#offTime");
+// const onTime = onTimeEle.value;
+// const offTime = offTimeEle.value;
+// console.log(onTime, offTime);
+// console.log(onTimeEle);
+// console.log(offTimeEle);

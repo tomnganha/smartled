@@ -1,17 +1,16 @@
 const mqtt = require("mqtt");
-const protocol = "mqtt";
-const host = "broker.hivemq.com";
-const portMqtt = "1883";
-const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
+const lightStatusHelper = require("../helper/lightStatus.helper");
+var options = {
+  host: "04f4aeeea4d84429864135c7870eb612.s1.eu.hivemq.cloud",
+  port: 8883,
+  protocol: "mqtts",
+  username: "thai",
+  password: "123456",
+};
+global._PUBLISH_TOPIC = "pbl3-esp32-001/lights/control";
+// initialize the MQTT client
+var client = mqtt.connect(options);
 
-const connectUrl = `${protocol}://${host}:${portMqtt}`;
-
-const client = mqtt.connect(connectUrl, {
-  clientId,
-  clean: true,
-  connectTimeout: 4000,
-  reconnectPeriod: 1000,
-});
 const topic = "pbl3-esp32-001/lights/status";
 module.exports.connectMqtt = async () => {
   try {
@@ -26,3 +25,12 @@ module.exports.connectMqtt = async () => {
   }
 };
 module.exports.client = client;
+module.exports.handlerDataFromMQTT = (client) => {
+  client.on("message", (topic, payload) => {
+    console.log("Received Message:", topic, payload.toString());
+    lightStates = JSON.parse(payload.toString());
+    lightStatusHelper.updateDatabase(lightStates); //update status lights len database
+    //update status lights len giao dien
+    _io.emit("SERVER_SEND_STATUS_FROM_MQTT", lightStates);
+  });
+};
